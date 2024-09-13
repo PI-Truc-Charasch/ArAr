@@ -14,3 +14,7 @@ Imports: shiny,
          FactoMineR
 URL: https://github.com/PI-Truc-Charasch/ArAr
 BugReports: https://github.com/PI-Truc-Charasch/ArAr/issues
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
