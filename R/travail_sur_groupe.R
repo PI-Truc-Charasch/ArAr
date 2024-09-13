@@ -19,7 +19,7 @@
 #'
 #' @examples
 travail_sur_groupe<-function(data,pas,normalize=TRUE,echantillonage=TRUE){
-
+  data<-selection_menu(data)
   nombre_element=length(data)
   nombre_ligne=nrow(data)
   #data[,8:14]=data[,8:14]*10e-5 #conversion ppm en % pour les éléments mineurs
