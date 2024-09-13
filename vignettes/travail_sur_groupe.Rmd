@@ -1,6 +1,7 @@
 ---
 title: "travail_sur_groupe"
 output: html_document
+bibliography: bibliographie.bib
 date: "2024-09-13"
 ---
 
