@@ -1,12 +1,21 @@
 ---
-title: "travail_sur_groupe"
-output: html_document
-bibliography: bibliographie.bib
-date: "2024-09-13"
+title: "ArArpackage"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ArArpackage}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ArAr)
 ```
 
 ## Généralité
