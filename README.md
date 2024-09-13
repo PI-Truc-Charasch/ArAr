@@ -1,5 +1,5 @@
 # ArAR
-**ArAr** est un package R conçu pour l'analyse de données archéologiques issues de mesures XRF. Il est à destination du laboratoire ArAr de Lyon (UMR 5138). Ce package a été développé dans le cadre d'un stage et reprend les fonctionnalités essentielles du site web d'analyse de données du labo [ceramom](https://ceramo.mom.fr/).
+**ArAr** est un package R à destination du laboratoire ArAr de Lyon conçu pour l'analyse de données archéologiques issues de mesures XRF. Ce package a été développé dans le cadre d'un stage et reprend les fonctionnalités essentielles du site web d'analyse de données du laboratoire : [ceramom](https://ceramo.mom.fr/).
 
 ## Installation
 
