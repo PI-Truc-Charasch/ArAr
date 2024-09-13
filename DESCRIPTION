@@ -1,0 +1,16 @@
+Package: ArAr
+Title: Package à destination du laboratoire ArAr
+Version: 0.0.0.9000
+Authors@R: 
+    person("Pierre-Ivan", "Truc", , "pitcpro@outlook.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: What the package does (one paragraph).
+License: GPL-3
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports: shiny, 
+         nexus,
+         FactoMineR
+URL: https://github.com/PI-Truc-Charasch/ArAr
+BugReports: https://github.com/PI-Truc-Charasch/ArAr/issues
