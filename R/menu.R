@@ -1,0 +1,49 @@
+#' Title
+#'
+#' @param df fichier data frame initial
+#'
+#' @return
+#' @export
+#' @import shiny
+#' @importFrom shiny fluidPage titlePanel sidebarLayout sidebarPanel checkboxGroupInput actionButton mainPanel tableOutput renderTable
+#' @importFrom shiny observeEvent showNotification shinyApp
+#' @examples
+#'
+selection_menu <- function(df) {
+  # Interface utilisateur
+  ui <- fluidPage(
+    titlePanel("Cochez les cases correspondant a ceux que vous ne souhaitez *pas* garder"),
+    sidebarLayout(
+      sidebarPanel(
+        checkboxGroupInput("columns", "Colonnes a supprimer :",
+                           choices = colnames(df),
+                           selected = c("Na2O","P2O5","La","Y", "Th", "Pb", "Cu")), # Colonnes pre-selectionnees
+        actionButton("apply_changes", "Valider") # Bouton de validation
+      ),
+      mainPanel(
+        tableOutput("table")
+      )
+    )
+  )
+
+  server <- function(input, output, session) {
+
+    # Tableau initial (sans modification)
+    output$table <- renderTable({
+      df
+    })
+
+    # Mettre a jour le tableau apres avoir clique sur "Valider"
+    observeEvent(input$apply_changes, {
+      filtered_df <- df[, !(colnames(df) %in% input$columns)]  # Filtrer les colonnes
+      output$table <- renderTable({
+        filtered_df
+      })
+      assign("df_transformed", filtered_df, envir = .GlobalEnv)  # Sauvegarder le data frame transforme
+      showNotification("Fichier transforme sauvegarde en tant que df_transformed", type = "message")
+      stopApp(returnValue = filtered_df)
+    })
+  }
+  shiny::runApp(shinyApp(ui = ui, server = server))
+  #return(data)
+}
