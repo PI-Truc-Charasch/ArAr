@@ -6,8 +6,7 @@
 #' @param k nombre decoupage groupe
 #' @return hc un dendogramme
 #' @export
-#' @importFrom stats dist
-#' @importFrom stats hclust rect.hclust cutree
+#' @importFrom stats hclust rect.hclust cutree dist
 #' @importFrom utils View
 #' @importFrom grDevices windows
 #' @importFrom nexus as_composition replace_zero transform_clr
@@ -20,6 +19,11 @@
 grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
 
   data=selection_menu(data)
+
+  if (normalize){
+
+
+  }
 
   if (methode=='simple'){
     data_norm=scale(data)
