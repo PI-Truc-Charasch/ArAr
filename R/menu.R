@@ -35,13 +35,15 @@ selection_menu <- function(df) {
 
     # Mettre a jour le tableau apres avoir clique sur "Valider"
     observeEvent(input$apply_changes, {
+      non_filtered_df <- df[, (colnames(df) %in% input$columns)]
       filtered_df <- df[, !(colnames(df) %in% input$columns)]  # Filtrer les colonnes
       output$table <- renderTable({
         filtered_df
       })
+     # res <- list(selection=filtered_df,exclusion=non_filtered_df)
       assign("df_transformed", filtered_df, envir = .GlobalEnv)  # Sauvegarder le data frame transforme
       showNotification("Fichier transforme sauvegarde en tant que df_transformed", type = "message")
-      stopApp(returnValue = filtered_df)
+      stopApp(returnValue =filtered_df)
     })
   }
   shiny::runApp(shinyApp(ui = ui, server = server))

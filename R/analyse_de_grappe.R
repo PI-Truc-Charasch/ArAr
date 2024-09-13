@@ -18,12 +18,17 @@
 #'
 grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
 
-  data=selection_menu(data)
+  #==========================traitement des donnes===========================
+
+  data_selectionne<-selection_menu(data)
 
   if (normalize){
-
-
+    data<-data_selectionne #creation du dataframe a normaliser
+    for (i in 1:nrow(data)){
+      data[i,]=data_selectionne[i,]/sum(data_selectionne[i,])*100
+    }
   }
+  else {data<-data_selectionne}
 
   if (methode=='simple'){
     data_norm=scale(data)
@@ -34,6 +39,9 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
     data_t=transform_clr(coda)
     data_norm=scale(data_t)
   }
+
+  #=============================clustering===================================
+
   matrice_dist <- dist(data_norm) #matrice des distances euclidiennes
   hc <- hclust(matrice_dist,method="average")
   #NB : method="average" si classification en affinite moyenne non ponderee
