@@ -57,6 +57,19 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
     rect.hclust(hc,h=h,border=2)
     groupes=cutree(hc,h=h)
     data$Groupe<-groupes
+
+    description_groupes <- catdes(data, num.var = ncol(data)) #pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
+    for (i in 1:length(description_groupes)){
+      print(description_groupes$quanti[i])
+      View(description_groupes$quanti[i])}
+    assign("description_groupes", description_groupes, envir = .GlobalEnv)
+    View(description_groupes[1])
+    windows(title = 'principaux composants par groupe')
+    plot(description_groupes)
+
+    data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
+    assign("data_split", data2, envir = .GlobalEnv)
+
   }
   if (!is.null(k)){
     rect.hclust(hc,k=k,border=2)
