@@ -2,24 +2,51 @@
 % Please edit documentation in R/analyse_de_grappe.R
 \name{grappe}
 \alias{grappe}
-\title{L'analyse de grappe ou classification hiérarchique ascendante est une technique de classification classique en analyse de données. Pour une revue synthétique, voir Gordon 1987}
+\title{Analyse de grappe}
 \usage{
 grappe(data, normalize = TRUE, methode = "simple", h = NULL, k = NULL)
 }
 \arguments{
-\item{data}{fichier data}
+\item{data}{Un dataframe}
 
-\item{normalize}{booleen. Vrai si on ramène à 100, faux sinon. Vrai par défaut}
+\item{normalize}{Un booleen. Si TRUE, les datas sont ramenées à 100 avant la classification, sinon elles sont gardées telles quelles}
 
-\item{methode}{string. methode d'analyse simple ou log-lineaire}
+\item{methode}{La methode de transformation utilisée au préalable de la classification}
 
-\item{h}{hauteur decoupage groupe}
-
-\item{k}{nombre decoupage groupe}
+\item{k, h}{Valeur scalaire. Coupe le dendogramme pour former k clusters ou à une hauteur h.}
 }
 \value{
-hc un dendogramme
+une liste de la classe hclust
 }
 \description{
-L'analyse de grappe ou classification hiérarchique ascendante est une technique de classification classique en analyse de données. Pour une revue synthétique, voir Gordon 1987
+L'analyse de grappe ou classification hiérarchique ascendante est une technique de classification automatique en analyse de données. Pour une revue synthétique, voir Gordon 1987.
+Contrairement à une analyse factorielle, elle prend en compte toutes les dimensions d'un problème, sans perte d'informations. Mais son principal avantage réside dans l'interprétation facile du dendrogramme.
+}
+\details{
+La fonction affiche un arbre hiérarchique. Une liste dataframe data_triee est automatiquement créée avec les échantillons rangées dans leur ordre d'apparition dans l'arbre.  Si le paramètre k ou h est renseigné, alors les groupes formés apparaissent sur le graphique et une colonne Groupe est ajoutée au fichier data_triee.
+Un ensemble de tests statistiques sont appliqués aux valeurs groupées pour vérifier la pertinence des groupes. On obtient une liste des éléments caractéristiques pour chaque groupe, avec leur valeur-test. Un test d'identitié des moyennes est également appliqué pour l'ensemble des variables.
+}
+\examples{
+
+## Not run:
+## Données de Yokman 2010
+data('rock')
+
+## Analyse de grappe
+#grappe(rock)
+
+# Les éléments 36, 38 et 42 sont marginaux, on les exclus
+rock<-exclure(rock,'46')
+rock<-exclure(rock,'38')
+rock<-exclure(rock,'42')
+
+## Deuxième analyse
+#grappe(rock)
+
+### Identification de quatre groupes
+#grappe(rock,k=4)
+
+## End(Not run)
+
+
 }

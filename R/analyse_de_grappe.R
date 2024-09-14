@@ -1,10 +1,17 @@
-#' L'analyse de grappe ou classification hiérarchique ascendante est une technique de classification classique en analyse de données. Pour une revue synthétique, voir Gordon 1987
-#' @param data fichier data
-#' @param normalize booleen. Vrai si on ramène à 100, faux sinon. Vrai par défaut
-#' @param methode string. methode d'analyse simple ou log-lineaire
-#' @param h hauteur decoupage groupe
-#' @param k nombre decoupage groupe
-#' @return hc un dendogramme
+#'@title Analyse de grappe
+#'@description
+#' L'analyse de grappe ou classification hiérarchique ascendante est une technique de classification automatique en analyse de données. Pour une revue synthétique, voir Gordon 1987.
+#' Contrairement à une analyse factorielle, elle prend en compte toutes les dimensions d'un problème, sans perte d'informations. Mais son principal avantage réside dans l'interprétation facile du dendrogramme.
+#'
+#' @param data Un dataframe.
+#' @param normalize Un booleen. Si TRUE, les datas sont ramenées à 100 avant la classification, sinon elles sont gardées telles quelles.
+#' @param methode La methode de transformation utilisée au préalable de la classification. Peut être "simple" ou "logarithme".
+#' @param k,h Valeur scalaire. Coupe le dendogramme pour former k clusters ou à une hauteur h.
+#'
+#' @details
+#' La fonction affiche un arbre hiérarchique. Une liste dataframe data_triee est automatiquement créée avec les échantillons rangées dans leur ordre d'apparition dans l'arbre.  Si le paramètre k ou h est renseigné, alors les groupes formés apparaissent sur le graphique et une colonne Groupe est ajoutée au fichier data_triee.
+#' Un ensemble de tests statistiques sont appliqués aux valeurs groupées pour vérifier la pertinence des groupes. On obtient une liste des éléments caractéristiques pour chaque groupe, avec leur valeur-test. Un test d'identitié des moyennes est également appliqué pour l'ensemble des variables.
+#' @return Une liste de la classe hclust.
 #' @export
 #' @importFrom stats hclust rect.hclust cutree dist
 #' @importFrom utils View
@@ -14,6 +21,26 @@
 #' @importFrom FactoMineR catdes plotcades
 #'
 #' @examples
+#'
+#' ## Not run:
+#' ## Données de Yokman 2010
+#' data('rock')
+#'
+#' ## Analyse de grappe
+#' #grappe(rock)
+#'
+#' # Les éléments 36, 38 et 42 sont marginaux, on les exclus
+#' rock<-exclure(rock,'46')
+#' rock<-exclure(rock,'38')
+#' rock<-exclure(rock,'42')
+#'
+#' ## Deuxième analyse
+#' #grappe(rock)
+#'
+#' ### Identification de quatre groupes
+#' #grappe(rock,k=4)
+#'
+#' ## End(Not run)
 #'
 #'
 grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
