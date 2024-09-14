@@ -1,7 +1,7 @@
-#' @title analyse discriminante
+#' @title Analyse discriminante
 #' @description
 #'
-#' La distance de Mahalanobis permet d'identifier
+#' La méthode d'analyse de données utilisée ici s'appuie sur . On l'appelle analyse de données quadratique. distance de Mahalanobis permet d'identifier
 #'
 #' @param data dataset de base
 #' @param pas pas

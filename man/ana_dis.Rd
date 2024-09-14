@@ -2,7 +2,7 @@
 % Please edit documentation in R/analyse_discriminante.R
 \name{ana_dis}
 \alias{ana_dis}
-\title{analyse discriminante}
+\title{Analyse discriminante}
 \usage{
 ana_dis(data, pas, echantillon, normalize = TRUE, echantillonage = TRUE)
 }
@@ -21,5 +21,5 @@ ana_dis(data, pas, echantillon, normalize = TRUE, echantillonage = TRUE)
 deux histogrammes
 }
 \description{
-La distance de Mahalanobis permet d'identifier
+La méthode d'analyse de données utilisée ici s'appuie sur . On l'appelle analyse de données quadratique. distance de Mahalanobis permet d'identifier
 }
