@@ -1,15 +1,15 @@
-\name{montpellier}
-\alias{montpellier}
+\name{albinia}
+\alias{albinia}
 \docType{data}
 \title{
-Echantillons du puit de la rue Barralerie
+Céramiques romaines antiques de Albinia, Etrurie.
 }
 \description{
-Echantillons tirés de l'étude de Valérie Thirion-Merle et Yona Waksman publiée en 1999.
+Dataset issu de la thèse de (Thierrin-Michae, 1992).
 }
-\usage{data("montpellier")}
+\usage{data("albinia")}
 \format{
-  A data frame with 100 observations on the following 24 variables.
+  A data frame with 25 observations on the following 24 variables.
   \describe{
     \item{\code{CaO}}{a numeric vector}
     \item{\code{Fe2O3}}{a numeric vector}
@@ -31,19 +31,18 @@ Echantillons tirés de l'étude de Valérie Thirion-Merle et Yona Waksman publi�
     \item{\code{Ba}}{a numeric vector}
     \item{\code{V}}{a numeric vector}
     \item{\code{Ce}}{a numeric vector}
-    \item{\code{Y}}{a numeric vector}
-    \item{\code{Th}}{a numeric vector}
-    \item{\code{Pb}}{a numeric vector}
-    \item{\code{Cu}}{a numeric vector}
+    \item{\code{Y}}{a logical vector}
+    \item{\code{Th}}{a logical vector}
+    \item{\code{Pb}}{a logical vector}
+    \item{\code{Cu}}{a logical vector}
   }
 }
 
 \source{
-Montpellier, Terre de faïence, SilvanaEditorale 2010
+Romische Weinamphoren,1992,Gisela Thierrin-Michael,These de l'Universite de Fribourg,Suisse
 }
-
 \examples{
-data(montpellier)
-## maybe str(montpellier) ; plot(montpellier) ...
+data(albinia)
+## maybe str(albinia) ; plot(albinia) ...
 }
 \keyword{datasets}
