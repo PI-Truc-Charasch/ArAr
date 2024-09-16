@@ -20,6 +20,6 @@ Permet d'exclure un échantillon marginal d'un dataset ou une variable peu inté
 \examples{
 data('rock')
 rock_sans_12<-exclure(rock,'13')
-View(rock)
+
 
 }
