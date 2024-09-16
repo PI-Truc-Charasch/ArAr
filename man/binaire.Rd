@@ -2,24 +2,26 @@
 % Please edit documentation in R/binaire.R
 \name{binaire}
 \alias{binaire}
-\title{Title}
+\title{Diagramme binaire}
 \usage{
 binaire(data, x, y)
 }
 \arguments{
-\item{data}{dd}
+\item{data}{Un dataframe.}
 
-\item{x}{vf}
+\item{x}{Un string. Le nom de l'élément que l'on veut en abssice.}
 
-\item{y}{sv}
+\item{y}{Un string. Le nom de l'élément que l'on veut en ordonnée.}
 }
 \value{
-ff
+Un biplot du diagramme binaire.
 }
 \description{
-Title
+En analyse de données, en archéométrie, il est souvent utile de tracer des diagrammes binaires entre deux éléments des variables d'analyse. Cette fonction permet de tracer un biplot pour un dataset du laboratoire.
 }
 \examples{
-1+1
+## dataset de Waksman, 1999
+data('montpellier')
+binaire(montpellier,'CaO','Fe2O3')
 
 }

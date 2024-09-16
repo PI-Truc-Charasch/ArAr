@@ -2,26 +2,27 @@
 % Please edit documentation in R/travail_sur_groupe.R
 \name{travail_sur_groupe}
 \alias{travail_sur_groupe}
-\title{travail sur groupe}
+\title{Travail sur groupe}
 \usage{
 travail_sur_groupe(data, pas, normalize = TRUE, echantillonage = TRUE)
 }
 \arguments{
-\item{data}{dataset de base}
+\item{data}{Un dataframe.}
 
-\item{pas}{pas}
+\item{pas}{Un sclaire. Il correspond à la largeur des intervalles de histogramme.}
 
-\item{normalize}{permet de ramener à 100}
+\item{normalize}{Un booleen. Si TRUE, les datas sont ramenées à 100 avant la classification, sinon elles sont gardées telles quelles.}
 
-\item{echantillonage}{afficher ou non le nom des individus}
+\item{echantillonage}{Un booleen. Si TRUE, le nom des échantillons apparaît sur l'histogramme.}
 }
 \value{
 deux histogrammes
 }
 \description{
-La distance de Mahalanobis permet d'identifier
+La fonction \code{travail_sur_groupe()} permet de tracer l'histogramme des distances de Mahalannobis au sein du groupe.
+Elle reprend une fonctionnalité disponible sur le site de ceramologie. Pour plus d'information sur les distances de Mahalanobis, voir la documentation \code{ana_dis}.
 }
 \examples{
-1+1
+#Plus tard
 
 }

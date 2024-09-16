@@ -30,7 +30,7 @@ histogramme(
 un graphique
 }
 \description{
-Cette fonction cree un histogramme base sur les valeurs d'un element chimique ou d'une variable numerique fournie.
+Cette fonction crée un histogramme base sur les valeurs d'un element chimique ou d'une variable numerique fournie.
 Elle permet de specifier des bornes inferieures et superieures ainsi qu'un pas pour controler la granularite de l'histogramme.
 Elle est utile pour observer la distribution d'un element chimique dans un ensemble de donnees.
 }

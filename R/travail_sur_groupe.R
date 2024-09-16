@@ -1,12 +1,12 @@
-#' @title travail sur groupe
-#' @description
+#' @title Travail sur groupe
+#' @description La fonction `travail_sur_groupe()` permet de tracer l'histogramme des distances de Mahalannobis au sein du groupe.
+#' Elle reprend une fonctionnalité disponible sur le site de ceramologie. Pour plus d'information sur les distances de Mahalanobis, voir la documentation `ana_dis`.
 #'
-#' La distance de Mahalanobis permet d'identifier
 #'
-#' @param data dataset de base
-#' @param pas pas
-#' @param normalize permet de ramener à 100
-#' @param echantillonage afficher ou non le nom des individus
+#' @param data Un dataframe.
+#' @param pas Un sclaire. Il correspond à la largeur des intervalles de histogramme.
+#' @param normalize Un booleen. Si TRUE, les datas sont ramenées à 100 avant la classification, sinon elles sont gardées telles quelles.
+#' @param echantillonage Un booleen. Si TRUE, le nom des échantillons apparaît sur l'histogramme.
 #'
 #' @return deux histogrammes
 #' @export
@@ -15,9 +15,10 @@
 #' @importFrom stats mahalanobis
 #' @importFrom stats pchisq
 #' @importFrom stats sd
+#' @importFrom utils data
 #'
 #' @examples
-#' 1+1
+#' #Plus tard
 #'
 travail_sur_groupe<-function(data,pas,normalize=TRUE,echantillonage=TRUE){
   data<-selection_menu(data)
