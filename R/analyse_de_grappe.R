@@ -81,9 +81,9 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
   #     method="median" si classification en affinite moyenne ponderee
   if (methode=='simple'){sub='hclust(*,"average") - transformation simple'}
   else if (methode=='logarithme'){sub='hclust(*,"average") - transformation log-ratio'}
-  dev.new(plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance"))
+  plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
 
-
+  data_triee <- data[hc$order, ]
 
   if (!is.null(h)){
     rect.hclust(hc,h=h,border=2)
@@ -96,7 +96,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
       View(description_groupes$quanti[i])}
    # assign("description_groupes", description_groupes, envir = .GlobalEnv)
     View(description_groupes[1])
-    dev.new(title = 'principaux composants par groupe')
+    #dev.new(title = 'principaux composants par groupe')
     plot(description_groupes)
 
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
@@ -115,14 +115,14 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
     View(description_groupes$quanti[i])}
   #  assign("description_groupes", description_groupes, envir = .GlobalEnv)
     View(description_groupes[1])
-    dev.new(title = 'principaux composants par groupe')
+    #dev.new(title = 'principaux composants par groupe')
     plot(description_groupes)
 
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
   #  assign("data_split", data2, envir = .GlobalEnv)
   }
 
-  data_triee <- data[hc$order, ]
+
  # assign("data_triee", data_triee, envir = .GlobalEnv)
   print("le fichier data a ete modifie et enregistre sous la forme data_triee")
   return(hc)
