@@ -22,6 +22,7 @@
 #' @importFrom nexus as_composition replace_zero transform_clr
 #' @importFrom graphics boxplot
 #' @importFrom FactoMineR catdes
+#' @importFrom utils data
 #'
 #' @examples
 #'
