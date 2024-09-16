@@ -1,13 +1,20 @@
-#' Title
+#' @title Menu selection des variables
+#' @description
+#' Menu de selection des variables éléments gardés pour une analyse.
 #'
-#' @param df fichier data frame initial
+#' @param df Un dataframe.
 #'
-#' @return
+#' @return Un dataframe sans les éléments déselectionnés.
 #' @export
 #' @import shiny
 #' @importFrom shiny fluidPage titlePanel sidebarLayout sidebarPanel checkboxGroupInput actionButton mainPanel tableOutput renderTable
 #' @importFrom shiny observeEvent showNotification shinyApp
 #' @examples
+#' ##Not run:
+#' #data('rock')
+#' #selection_menu(rock)
+#' ##End(Not run)
+#'
 #'
 selection_menu <- function(df) {
   # Interface utilisateur
@@ -41,7 +48,7 @@ selection_menu <- function(df) {
         filtered_df
       })
      # res <- list(selection=filtered_df,exclusion=non_filtered_df)
-      assign("df_transformed", filtered_df, envir = .GlobalEnv)  # Sauvegarder le data frame transforme
+      #assign("df_transformed", filtered_df, envir = .GlobalEnv)  # Sauvegarder le data frame transforme
       showNotification("Fichier transforme sauvegarde en tant que df_transformed", type = "message")
       stopApp(returnValue =filtered_df)
     })

@@ -18,10 +18,10 @@
 #' @export
 #' @importFrom stats hclust rect.hclust cutree dist
 #' @importFrom utils View
-#' @importFrom grDevices windows
+#' @importFrom grDevices windows dev.new
 #' @importFrom nexus as_composition replace_zero transform_clr
 #' @importFrom graphics boxplot
-#' @importFrom FactoMineR catdes plotcades
+#' @importFrom FactoMineR catdes
 #'
 #' @examples
 #'
@@ -78,10 +78,9 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
   hc <- hclust(matrice_dist,method="average")
   #NB : method="average" si classification en affinite moyenne non ponderee
   #     method="median" si classification en affinite moyenne ponderee
-  windows()
   if (methode=='simple'){sub='hclust(*,"average") - transformation simple'}
   else if (methode=='logarithme'){sub='hclust(*,"average") - transformation log-ratio'}
-  plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
+  dev.new(plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance"))
 
 
 

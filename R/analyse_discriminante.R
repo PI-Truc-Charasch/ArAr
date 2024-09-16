@@ -1,15 +1,30 @@
-#' @title Analyse discriminante
+#' @title Analyse discriminante quadratique
 #' @description
 #'
-#' La méthode d'analyse de données utilisée ici s'appuie sur . On l'appelle analyse de données quadratique. distance de Mahalanobis permet d'identifier
+#' L'analyse discriminante quadratique permet d'attribuer une céramique donnée à un groupe de référence à l'aide d'un calcul de probabilité d'appartenance. On identifie au préalable dans la base donnée un certain nombre de groupes parmi lesquels on cherche à identifier celui auquel appartient la céramique étudiée.
+#' Cette attribution s'exprime en termes de statistique par la distance de Mahalannobis et un histogramme est tracé.
 #'
-#' @param data dataset de base
-#' @param pas pas
-#' @param echantillon dataset a analyser
-#' @param normalize permet de ramener à 100
-#' @param echantillonage vrai ou faux
+#' @param data Un dataframe. Les données sur lesquelles l'analyse sera effectuée.
+#' @param pas Un sclaire. Il correspond à la largeur des intervalles de histogramme.
+#' @param echantillon Un dataframe d'un ou plusieurs individus. Il s'agit des données pourlequelles il faut établir le groupe de référence.
+#' @param normalize Un booleen. Si TRUE, les datas sont ramenées à 100 avant la classification, sinon elles sont gardées telles quelles.
+#' @param echantillonage Un booleen. Si TRUE, le nom des échantillons apparaît sur l'histogramme.
 #'
-#' @return deux histogrammes
+#' @details
+#' \cr La probabilité d'appartenance d'une céramique x au groupe s'exprime par :
+#' \deqn{f_{k}(x) = \frac{e^{-\frac{1}{2}(x - \mu_{k})' C_{k}^{-1} (x - \mu_{k})}}{(2\pi)^{\frac{n}{2}} \left| C_{k} \right|^{\frac{1}{2}}}}
+#'
+#' où :
+#' \itemize{
+#'   \item \eqn{\mu_k} est la moyenne des éléments du groupe \eqn{k},
+#'   \item \eqn{C_k} est la matrice de covariance du groupe \eqn{k},
+#'   \item \eqn{n} est le nombre de variables.
+#' }
+#'
+#' Cette approche est néanmoins entièremment géométrique et ne prend pas en compte les probabilités _a priori_ des différents groupes.
+#'
+#
+#' @return L'histogramme des distances euclidennes et de Mahalannobis.
 #' @export
 #' @importFrom graphics boxplot
 #' @importFrom stats cov
@@ -17,7 +32,18 @@
 #' @importFrom stats pchisq
 #' @importFrom stats sd
 #'
+#' @references
+#' Picon, M. (1984). *PACT 10*. Academic Press. \cr
+#' M. J. Baxter(1994), *Exploratory multivariate analisys in archeology*, Editions Edinburgh University Press. \cr
+#' Chenorkian, R. (1996), *Pratique archéologique statistique et graphique*, Editions Errance \cr
+#'
 #' @examples
+#'
+#' #data=as.dataframe(c(1,2,3))
+#' #ana_dis(data)
+#'
+#'
+#'
 ana_dis<-function(data,pas,echantillon,normalize=TRUE,echantillonage=TRUE){
 
   data=selection_menu(data)

@@ -2,18 +2,24 @@
 % Please edit documentation in R/exclure.R
 \name{exclure}
 \alias{exclure}
-\title{Title dd}
+\title{fonction d'exclusion}
 \usage{
 exclure(data, fichier)
 }
 \arguments{
-\item{data}{d}
+\item{data}{Le dataset de base.}
 
-\item{fichier}{dd}
+\item{fichier}{Le nom de l'échantillon à enlever ou de l'élément chimique à ne pas prendre en compte dans l'analyse.}
 }
 \value{
-d
+Le dataframe sans l'élément marginal ou l'élément chimique.
 }
 \description{
-Title dd
+Permet d'exclure un échantillon marginal d'un dataset ou une variable peu intéressante.
+}
+\examples{
+data('rock')
+rock_sans_12<-exclure(rock,'13')
+View(rock)
+
 }

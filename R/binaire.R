@@ -6,6 +6,7 @@
 #' @return ff
 #' @export
 #' @examples
+#' 1+1
 #'
 binaire<-function(data,x,y){
   i_x <- which(names(data) == x)

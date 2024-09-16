@@ -19,3 +19,7 @@ ff
 \description{
 Title
 }
+\examples{
+1+1
+
+}

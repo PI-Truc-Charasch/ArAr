@@ -1,12 +1,16 @@
-#' Title dd
+#' @title fonction d'exclusion
+#' @description Permet d'exclure un échantillon marginal d'un dataset ou une variable peu intéressante.
+#' @param data Le dataset de base.
+#' @param fichier Le nom de l'échantillon à enlever ou de l'élément chimique à ne pas prendre en compte dans l'analyse.
 #'
-#' @param data d
-#' @param fichier  dd
-#'
-#' @return d
+#' @return Le dataframe sans l'élément marginal ou l'élément chimique.
 #' @export
 #'
 #' @examples
+#' data('rock')
+#' rock_sans_12<-exclure(rock,'13')
+#' View(rock)
+#'
 exclure<-function(data,fichier){
 
   if (fichier %in% rownames(data)) {

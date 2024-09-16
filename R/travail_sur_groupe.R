@@ -18,6 +18,8 @@
 #' @importFrom grDevices windows
 #'
 #' @examples
+#' 1+1
+#'
 travail_sur_groupe<-function(data,pas,normalize=TRUE,echantillonage=TRUE){
   data<-selection_menu(data)
   nombre_element=length(data)

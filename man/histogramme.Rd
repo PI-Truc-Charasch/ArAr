@@ -34,3 +34,9 @@ Cette fonction cree un histogramme base sur les valeurs d'un element chimique ou
 Elle permet de specifier des bornes inferieures et superieures ainsi qu'un pas pour controler la granularite de l'histogramme.
 Elle est utile pour observer la distribution d'un element chimique dans un ensemble de donnees.
 }
+\examples{
+data('iris')
+histogramme(iris,'Sepal.Length',1)
+
+
+}

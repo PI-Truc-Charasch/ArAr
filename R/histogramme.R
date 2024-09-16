@@ -21,7 +21,8 @@
 #' @importFrom grDevices windows
 #'
 #' @examples
-#'
+#' data('iris')
+#' histogramme(iris,'Sepal.Length',1)
 #'
 #'
 histogramme <- function(data,element, pas, borne_inferieure=NULL, borne_superieure=NULL, echantillonage=TRUE) {

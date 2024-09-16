@@ -2,13 +2,24 @@
 % Please edit documentation in R/menu.R
 \name{selection_menu}
 \alias{selection_menu}
-\title{Title}
+\title{Menu selection des variables}
 \usage{
 selection_menu(df)
 }
 \arguments{
-\item{df}{fichier data frame initial}
+\item{df}{Un dataframe.}
+}
+\value{
+Un dataframe sans les éléments déselectionnés.
 }
 \description{
-Title
+Menu de selection des variables éléments gardés pour une analyse.
+}
+\examples{
+##Not run:
+#data('rock')
+#selection_menu(rock)
+##End(Not run)
+
+
 }

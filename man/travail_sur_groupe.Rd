@@ -21,3 +21,7 @@ deux histogrammes
 \description{
 La distance de Mahalanobis permet d'identifier
 }
+\examples{
+1+1
+
+}
