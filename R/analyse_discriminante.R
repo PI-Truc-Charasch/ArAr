@@ -31,6 +31,7 @@
 #' @importFrom stats mahalanobis
 #' @importFrom stats pchisq
 #' @importFrom stats sd
+#' @importFrom utils data
 #'
 #' @references
 #' Picon, M. (1984). *PACT 10*. Academic Press. \cr

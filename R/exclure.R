@@ -4,6 +4,7 @@
 #' @param fichier Le nom de l'échantillon à enlever ou de l'élément chimique à ne pas prendre en compte dans l'analyse.
 #'
 #' @return Le dataframe sans l'élément marginal ou l'élément chimique.
+#' @importFrom utils data
 #' @export
 #'
 #' @examples

@@ -9,6 +9,7 @@
 #' @import shiny
 #' @importFrom shiny fluidPage titlePanel sidebarLayout sidebarPanel checkboxGroupInput actionButton mainPanel tableOutput renderTable
 #' @importFrom shiny observeEvent showNotification shinyApp
+#' @importFrom utils data
 #' @examples
 #' ##Not run:
 #' #data('rock')
