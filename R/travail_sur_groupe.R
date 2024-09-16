@@ -15,7 +15,6 @@
 #' @importFrom stats mahalanobis
 #' @importFrom stats pchisq
 #' @importFrom stats sd
-#' @importFrom grDevices windows
 #'
 #' @examples
 #' 1+1
@@ -66,7 +65,6 @@ travail_sur_groupe<-function(data,pas,normalize=TRUE,echantillonage=TRUE){
     borne_inferieure=floor(min(liste_dist)/pas)*pas #calculee en arrondissant la valeur minimale des donnees au pas inferieur le plus proche
     borne_superieure=ceiling(max(liste_dist)/pas)*pas #idem pas superieur le plus proche
     breaks<-seq(borne_inferieure, borne_superieure, by=pas)
-    windows()
     hist(liste_dist,freq=TRUE,breaks=breaks,xlab='distance',ylab="nombre d'echantillon",main=titre_graphe,col="lightblue")
 
     if (echantillonage) {

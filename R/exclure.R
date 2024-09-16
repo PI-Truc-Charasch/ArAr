@@ -9,7 +9,7 @@
 #' @examples
 #' data('rock')
 #' rock_sans_12<-exclure(rock,'13')
-#' View(rock)
+#'
 #'
 exclure<-function(data,fichier){
 

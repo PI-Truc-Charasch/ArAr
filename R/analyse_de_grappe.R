@@ -18,7 +18,7 @@
 #' @export
 #' @importFrom stats hclust rect.hclust cutree dist
 #' @importFrom utils View
-#' @importFrom grDevices windows dev.new
+#' @importFrom grDevices dev.new
 #' @importFrom nexus as_composition replace_zero transform_clr
 #' @importFrom graphics boxplot
 #' @importFrom FactoMineR catdes
@@ -93,13 +93,13 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
     for (i in 1:length(description_groupes)){
       print(description_groupes$quanti[i])
       View(description_groupes$quanti[i])}
-    assign("description_groupes", description_groupes, envir = .GlobalEnv)
+   # assign("description_groupes", description_groupes, envir = .GlobalEnv)
     View(description_groupes[1])
-    windows(title = 'principaux composants par groupe')
+    dev.new(title = 'principaux composants par groupe')
     plot(description_groupes)
 
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
-    assign("data_split", data2, envir = .GlobalEnv)
+ #   assign("data_split", data2, envir = .GlobalEnv)
 
   }
   if (!is.null(k)){
@@ -112,17 +112,17 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
     for (i in 1:k){
     print(description_groupes$quanti[i])
     View(description_groupes$quanti[i])}
-    assign("description_groupes", description_groupes, envir = .GlobalEnv)
+  #  assign("description_groupes", description_groupes, envir = .GlobalEnv)
     View(description_groupes[1])
-    windows(title = 'principaux composants par groupe')
+    dev.new(title = 'principaux composants par groupe')
     plot(description_groupes)
 
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
-    assign("data_split", data2, envir = .GlobalEnv)
+  #  assign("data_split", data2, envir = .GlobalEnv)
   }
 
   data_triee <- data[hc$order, ]
-  assign("data_triee", data_triee, envir = .GlobalEnv)
+ # assign("data_triee", data_triee, envir = .GlobalEnv)
   print("le fichier data a ete modifie et enregistre sous la forme data_triee")
   return(hc)
 }

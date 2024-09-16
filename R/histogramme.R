@@ -18,7 +18,6 @@
 #' @importFrom graphics axis
 #' @importFrom graphics box
 #' @importFrom graphics text
-#' @importFrom grDevices windows
 #'
 #' @examples
 #' data('iris')
@@ -48,7 +47,6 @@ histogramme <- function(data,element, pas, borne_inferieure=NULL, borne_superieu
   breaks<-seq(borne_inferieure, borne_superieure, by=pas)
 
   # Afficher l'histogramme
-  windows()
   hist(data[,i], breaks = breaks, main = paste("Histogramme des valeurs de l'element chimique",element),
        xlab = "Valeurs de l'element", ylab = paste("Nombre d'element",element), col = "lightblue", border = "black")
 
