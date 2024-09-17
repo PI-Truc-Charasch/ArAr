@@ -4,7 +4,14 @@
 \alias{grappe}
 \title{Analyse de grappe}
 \usage{
-grappe(data, normalize = TRUE, methode = "simple", h = NULL, k = NULL)
+grappe(
+  data,
+  normalize = TRUE,
+  methode = "simple",
+  h = NULL,
+  k = NULL,
+  color = FALSE
+)
 }
 \arguments{
 \item{data}{Un dataframe.}
@@ -14,6 +21,8 @@ grappe(data, normalize = TRUE, methode = "simple", h = NULL, k = NULL)
 \item{methode}{La methode de transformation utilisée au préalable de la classification. Peut être \code{"simple"} ou \code{"logarithme"}.}
 
 \item{k, h}{Valeur scalaire. Coupe le dendogramme pour former \code{k} clusters ou à une hauteur \code{h}.}
+
+\item{color}{Un booleen. Si TRUE, le nom de chaque individu est colorié selon son groupe de référence. La dernière colonne de \code{data} doit être le numéro du groupe de référence.}
 }
 \value{
 Une liste de la classe hclust.

@@ -7,7 +7,7 @@
 #' @param normalize Un booleen. Si TRUE, les datas sont ramenées à 100 avant la classification, sinon elles sont gardées telles quelles.
 #' @param methode La methode de transformation utilisée au préalable de la classification. Peut être `"simple"` ou `"logarithme"`.
 #' @param k,h Valeur scalaire. Coupe le dendogramme pour former `k` clusters ou à une hauteur `h`.
-#'
+#' @param color Un booleen. Si TRUE, le nom de chaque individu est colorié selon son groupe de référence. La dernière colonne de `data` doit être le numéro du groupe de référence.
 #' @details
 #' La fonction affiche un arbre hiérarchique. Une liste dataframe `data_triee` est automatiquement créée avec les échantillons rangées dans leur ordre d'apparition dans l'arbre.  Si le paramètre `k` ou `h` est renseigné, alors les groupes formés apparaissent sur le graphique et une colonne `Groupe` est ajoutée au fichier `data_triee`.
 #' Un ensemble de tests statistiques sont appliqués aux valeurs groupées pour vérifier la pertinence des groupes. On obtient une liste des éléments caractéristiques pour chaque groupe, avec leur valeur-test. Un test d'identitié des moyennes est également appliqué pour l'ensemble des variables.\cr
@@ -18,11 +18,10 @@
 #' @export
 #' @importFrom stats hclust rect.hclust cutree dist
 #' @importFrom utils View
-#' @importFrom grDevices dev.new
+#' @importFrom grDevices dev.new palette
 #' @importFrom nexus as_composition replace_zero transform_clr
 #' @importFrom graphics boxplot
 #' @importFrom FactoMineR catdes
-#' @importFrom utils data
 #'
 #' @examples
 #'
@@ -49,14 +48,14 @@
 #' ## Exemple 2 Waksman, 1999
 #'
 #'
-grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
+grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALSE){
 
-  #==========================traitement des donnes===========================
-
+  #==========================traitement des donnés===========================
+  data0=data
   data_selectionne<-selection_menu(data)
 
   if (normalize){
-    data<-data_selectionne #creation du dataframe a normaliser
+    data<-data_selectionne #creation du dataframe à normaliser
     for (i in 1:nrow(data)){
       data[i,]=data_selectionne[i,]/sum(data_selectionne[i,])*100
     }
@@ -73,7 +72,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
     data_norm=scale(data_t)
   }
 
-  #=============================clustering===================================
+  #=============================clustering======================================
 
   matrice_dist <- dist(data_norm) #matrice des distances euclidiennes
   hc <- hclust(matrice_dist,method="average")
@@ -81,10 +80,33 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
   #     method="median" si classification en affinite moyenne ponderee
   if (methode=='simple'){sub='hclust(*,"average") - transformation simple'}
   else if (methode=='logarithme'){sub='hclust(*,"average") - transformation log-ratio'}
-  plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
 
+
+ #========================visualisation graphique===============================
+
+  ## Plot initial---------------------------------------------------------------
+  plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
   data_triee <- data[hc$order, ]
 
+  ## Mise en couleur des noms des individus en fonction de leur groupe de référence inital--
+  if (color)
+  {plot(hc, labels = FALSE, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
+
+  palette <- color("soil")(ncol(data0))
+  labels <- rownames(data)
+  colors <- palette[data0[, ncol(data0)]]
+
+  if (!(is.null(h)&is.null(k))){position_text=-0.8}
+  else {position_text=-0.2} #permet d'avoir des résultats lisibles, tout en ne cachant pas les rectangles qui encadrent les clusters de la classification
+
+  text(x = seq_along(labels),
+       y = rep(position_text, length(labels)),
+       labels = labels[hc$order],
+       col = colors[hc$order],
+       srt = 90, adj = 1, xpd = TRUE, cex = 0.8)}
+
+  ## Détection des nouveaux groupes, tests statistiques sur ces groupes---------
+    ### Détection par la hauteur
   if (!is.null(h)){
     rect.hclust(hc,h=h,border=2)
     groupes=cutree(hc,h=h)
@@ -93,37 +115,28 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL){
     description_groupes <- catdes(data, num.var = ncol(data)) #pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:length(description_groupes)){
       print(description_groupes$quanti[i])
-      View(description_groupes$quanti[i])}
-   # assign("description_groupes", description_groupes, envir = .GlobalEnv)
-    View(description_groupes[1])
-    #dev.new(title = 'principaux composants par groupe')
+      View(description_groupes$quanti[i])} # valeur-test et p-value par groupe
+    View(description_groupes[1]) # test de Fisher et R²
     plot(description_groupes)
 
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
- #   assign("data_split", data2, envir = .GlobalEnv)
-
+    #   assign("data_split", data2, envir = .GlobalEnv)
   }
+    ### Détection par le nombre de clusters
   if (!is.null(k)){
     rect.hclust(hc,k=k,border=2)
     groupes=cutree(hc,k=k)
     data$Groupe<-as.factor(groupes)
-    #windows()
-    #boxplot(data_triee$CaO~data_triee$Groupe,xlab="groupe",ylab="CaO")
     description_groupes <- catdes(data, num.var = ncol(data)) #pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:k){
-    print(description_groupes$quanti[i])
-    View(description_groupes$quanti[i])}
-  #  assign("description_groupes", description_groupes, envir = .GlobalEnv)
+      print(description_groupes$quanti[i])
+      View(description_groupes$quanti[i])}
+    # valeur-test et p-value par groupe
     View(description_groupes[1])
-    #dev.new(title = 'principaux composants par groupe')
+    # test de Fisher et R²
     plot(description_groupes)
 
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
-  #  assign("data_split", data2, envir = .GlobalEnv)
   }
-
-
- # assign("data_triee", data_triee, envir = .GlobalEnv)
-  print("le fichier data a ete modifie et enregistre sous la forme data_triee")
   return(hc)
 }
