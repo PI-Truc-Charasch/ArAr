@@ -22,7 +22,7 @@ grappe(
 
 \item{k, h}{Valeur scalaire. Coupe le dendogramme pour former \code{k} clusters ou à une hauteur \code{h}.}
 
-\item{color}{Un booleen. Si TRUE, le nom de chaque individu est colorié selon son groupe de référence. La dernière colonne de \code{data} doit être le numéro du groupe de référence.}
+\item{color}{Un booleen. Si TRUE, le nom de chaque individu est colorié selon son groupe de référence. La dernière colonne de \code{data} doit alors être le numéro du groupe de référence.}
 }
 \value{
 Une liste de la classe hclust.
@@ -36,6 +36,9 @@ La fonction affiche un arbre hiérarchique. Une liste dataframe \code{data_triee
 Un ensemble de tests statistiques sont appliqués aux valeurs groupées pour vérifier la pertinence des groupes. On obtient une liste des éléments caractéristiques pour chaque groupe, avec leur valeur-test. Un test d'identitié des moyennes est également appliqué pour l'ensemble des variables.\cr
 \cr
 Le calcul préalable de traitement des données par la méthode \code{"logarithme"} s'appuie la transformation centrée log-ratio introduite par Aitchison en 1986. Il permet d'éviter le phénomène de contamination de la matrice des covariances en supprimant une contrainte.
+
+\cr
+L'arbre est construit avec une matrice des distances euclidiennes et par affinité moyenne, conformément à l'usage en archéométrie.
 }
 \examples{
 
