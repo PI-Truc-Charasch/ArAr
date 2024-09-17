@@ -7,12 +7,15 @@
 #' @param normalize Un booleen. Si TRUE, les datas sont ramenées à 100 avant la classification, sinon elles sont gardées telles quelles.
 #' @param methode La methode de transformation utilisée au préalable de la classification. Peut être `"simple"` ou `"logarithme"`.
 #' @param k,h Valeur scalaire. Coupe le dendogramme pour former `k` clusters ou à une hauteur `h`.
-#' @param color Un booleen. Si TRUE, le nom de chaque individu est colorié selon son groupe de référence. La dernière colonne de `data` doit être le numéro du groupe de référence.
+#' @param color Un booleen. Si TRUE, le nom de chaque individu est colorié selon son groupe de référence. La dernière colonne de `data` doit alors être le numéro du groupe de référence.
 #' @details
 #' La fonction affiche un arbre hiérarchique. Une liste dataframe `data_triee` est automatiquement créée avec les échantillons rangées dans leur ordre d'apparition dans l'arbre.  Si le paramètre `k` ou `h` est renseigné, alors les groupes formés apparaissent sur le graphique et une colonne `Groupe` est ajoutée au fichier `data_triee`.
 #' Un ensemble de tests statistiques sont appliqués aux valeurs groupées pour vérifier la pertinence des groupes. On obtient une liste des éléments caractéristiques pour chaque groupe, avec leur valeur-test. Un test d'identitié des moyennes est également appliqué pour l'ensemble des variables.\cr
 #' \cr
 #' Le calcul préalable de traitement des données par la méthode `"logarithme"` s'appuie la transformation centrée log-ratio introduite par Aitchison en 1986. Il permet d'éviter le phénomène de contamination de la matrice des covariances en supprimant une contrainte.
+#'
+#' \cr
+#' L'arbre est construit avec une matrice des distances euclidiennes et par affinité moyenne, conformément à l'usage en archéométrie.
 #'
 #' @return Une liste de la classe hclust.
 #' @export
@@ -22,6 +25,7 @@
 #' @importFrom nexus as_composition replace_zero transform_clr
 #' @importFrom graphics boxplot
 #' @importFrom FactoMineR catdes
+#' @importFrom khroma color
 #'
 #' @examples
 #'

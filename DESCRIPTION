@@ -11,7 +11,8 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.2
 Imports: shiny, 
          nexus,
-         FactoMineR
+         FactoMineR,
+         khroma
 URL: https://github.com/PI-Truc-Charasch/ArAr
 BugReports: https://github.com/PI-Truc-Charasch/ArAr/issues
 Suggests: 
