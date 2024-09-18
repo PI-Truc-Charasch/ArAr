@@ -37,11 +37,11 @@ histogramme <- function(data,element, pas, borne_inferieure=NULL, borne_superieu
 
   # valeur des bornes par defaut
   if (is.null(borne_inferieure)){
-    borne_inferieure=round(min(data[,i])-1)
+    borne_inferieure=floor(min(data[,i])/pas)*pas
   }
 
   if (is.null(borne_superieure)){
-    borne_superieure=round(max(data[,i])+1)
+    borne_superieure=ceiling(max(data[,i])/pas)*pas
   }
 
   # Generer les intervalles de l'histogramme
