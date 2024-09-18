@@ -48,17 +48,13 @@
 ana_dis<-function(data,pas,echantillon,normalize=TRUE,echantillonage=TRUE){
 
   nombre_ligne <- nrow(data)
-
-  data2[nombre_ligne+1,] <- echantillon
-  data2 <- selection_menu(data2)
-
-  data <- data2[1:nombre_ligne,]
-
-
   nombre_element <- length(data)
 
 
-
+  data2 <- data
+  data2[nombre_ligne+1,] <- echantillon
+  data2 <- selection_menu(data2)
+  data <- data2[1:nombre_ligne,]
 
   distance_euclidean <- function(echantillon){
     mean_existing <- colMeans(data)
@@ -69,19 +65,23 @@ ana_dis<-function(data,pas,echantillon,normalize=TRUE,echantillonage=TRUE){
 
   distance_mahalanobis <- function(echantillon){
     matrice=cov(data2)
-
-    svd_decomp <- svd(matrice)
+    print("a")
+    svd_decomp <- svd(matrice) #distance régularisée, cf (Lebart et al. 2000) $7.4.2
+    print("b")
     covariance_matrix_inv <- svd_decomp$u %*% diag(1 / svd_decomp$d) %*% t(svd_decomp$v)
-
-    lambda=0.1
-    matrice_reg<-matrice+lambda*diag(ncol(data))
-
-    inv_matrice_reg<-solve(matrice_reg)
+    print("c")
+    # lambda=0.1
+    # matrice_reg<-matrice+lambda*diag(ncol(data))
+    #
+    # inv_matrice_reg<-solve(matrice_reg)
 
     mean_existing<-colMeans(data)
     #diff <- echantillon - mean_existing
     #distance <- t(diff) %*% inv_matrice_reg %*% diff
+    echantillon=as.vector(as.matrix(echantillon))
+    print("cc")
     distance <- mahalanobis(echantillon,mean_existing,covariance_matrix_inv,inverted = TRUE)
+    print("d")
     distance=sqrt(distance)/nombre_element
     return(distance)
   }
@@ -94,23 +94,27 @@ ana_dis<-function(data,pas,echantillon,normalize=TRUE,echantillonage=TRUE){
     titre_graphe=paste("Histogramme des distances",nom_distance)
 
     liste_dist=apply(data,1,distance)
-    liste_dist_complete=c(liste_dist,distance(echantillon))
+    print("passe")
+    #liste_dist_complete=c(liste_dist,distance(echantillon))
+    print("passe_aussi")
+    liste_dist_complete2=apply(data2,1,distance)
+    print("passe_toujours")
     #boxplot(liste_dist)
 
-    borne_inferieure=floor(min(liste_dist_complete)/pas)*pas #calculee en arrondissant la valeur minimale des donnees au pas inferieur le plus proche
-    borne_superieure=ceiling(max(liste_dist_complete)/pas)*pas #idem pas superieur le plus proche
+    borne_inferieure=floor(min(liste_dist_complete2)/pas)*pas #calculee en arrondissant la valeur minimale des donnees au pas inferieur le plus proche
+    borne_superieure=ceiling(max(liste_dist_complete2)/pas)*pas #idem pas superieur le plus proche
     breaks<-seq(borne_inferieure, borne_superieure, by=pas)
     #windows()
-    hist(liste_dist_complete,freq=TRUE,breaks=breaks,xlab='distance',ylab="nombre d'echantillon",main=titre_graphe,col="red")
+    hist(liste_dist_complete2,freq=TRUE,breaks=breaks,xlab='distance',ylab="nombre d'echantillon",main=titre_graphe,col="red")
     hist(liste_dist,freq=TRUE,breaks=breaks,xlab='distance',ylab="nombre d'echantillon",main=titre_graphe,col="lightblue",add=TRUE)
 
 
 
     if (echantillonage) {
       x_min <- borne_inferieure
-      liste_ordonne<-sort(liste_dist_complete)
+      liste_ordonne<-sort(liste_dist_complete2)
       x_max <- x_min + pas
-      nombre <- length(liste_dist_complete)
+      nombre <- length(liste_dist_complete2)
       name <- names(liste_ordonne)
       a <- 1
       hauteur <- 0.5
