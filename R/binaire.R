@@ -23,6 +23,7 @@ binaire<-function(data,x,y,groupe=FALSE){
 
   plot(data[, i_x], data[, i_y], xlab = x, ylab = y, xlim = x_range, ylim = y_range)
 
+  #----mise en couleur des groupes----------------------------------------------------
   if (groupe){
     data_split=split(data[,1:ncol(data)-1],data[,ncol(data)])
     groupes <- unique(data[, ncol(data)])
@@ -30,6 +31,7 @@ binaire<-function(data,x,y,groupe=FALSE){
     for (i in 1:length(data_split)){
       points(data_split[[i]][, i_x], data_split[[i]][, i_y], col = palette[i], pch = 16)
     }
+    legend("bottomright", legend = groupes, col = palette, pch = 16, title = "Groupes")
   }
-  legend("bottomright", legend = groupes, col = palette, pch = 16, title = "Groupes")
+
 }
