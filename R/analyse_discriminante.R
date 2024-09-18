@@ -47,18 +47,16 @@
 #'
 ana_dis<-function(data,pas,echantillon,normalize=TRUE,echantillonage=TRUE){
 
-  data=selection_menu(data)
+  nombre_ligne <- nrow(data)
 
-  data2=data
-  data2[nrow(data)+1,]<-new
+  data2[nombre_ligne+1,] <- echantillon
+  data2 <- selection_menu(data2)
 
-  nombre_element=length(data)
-  nombre_ligne=nrow(data)
-  #data[,8:14]=data[,8:14]*10e-5 #conversion ppm en % pour les elements mineurs
-  #echantillon[,8:14]=echantillon[,8:14]*10e-5
-  new=data[1,]
-  new[,1:length(data)]=echantillon
-  row.names(new)="ORS118"
+  data <- data2[1:nombre_ligne,]
+
+
+  nombre_element <- length(data)
+
 
 
 
