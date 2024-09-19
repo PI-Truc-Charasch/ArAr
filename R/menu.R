@@ -18,14 +18,19 @@
 #'
 #'
 selection_menu <- function(df) {
+  garde_columns <- c("CaO",	"Fe2O3",	"TiO2",	"K2O",	"SiO2",	"Al2O3",	"MgO",	"MnO","Zr",	"Sr",	"Rb",	"Zn",	"Cr",	"Ni",	"La",	"Ba","V",	"Ce")
+  preselection <- setdiff(colnames(df), garde_columns)
+
+  if ("Groupe" %in% colnames(df)){preselection<-c("Groupe",preselection)}
   # Interface utilisateur
   ui <- fluidPage(
-    titlePanel("Cochez les cases correspondant a ceux que vous ne souhaitez *pas* garder"),
+    titlePanel("Cochez les cases correspondant à ceux que vous ne souhaitez PAS garder"),
     sidebarLayout(
       sidebarPanel(
         checkboxGroupInput("columns", "Colonnes a supprimer :",
                            choices = colnames(df),
-                           selected = c("Na2O","P2O5","La","Y", "Th", "Pb", "Cu")), # Colonnes pre-selectionnees
+                           selected = preselection ), # Colonnes pre-selectionnees
+
         actionButton("apply_changes", "Valider") # Bouton de validation
       ),
       mainPanel(
