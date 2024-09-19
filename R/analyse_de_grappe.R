@@ -91,6 +91,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
   ## Plot initial---------------------------------------------------------------
   plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
   data_triee <- data[hc$order, ]
+  res=as.data.frame(c(data_triee,hc))
 
   ## Mise en couleur des noms des individus en fonction de leur groupe de référence inital--
   if (color)
@@ -115,7 +116,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     rect.hclust(hc,h=h,border=2)
     groupes=cutree(hc,h=h)
     data$Groupe<-groupes
-
+    data_triee <- data[hc$order, ]
     description_groupes <- catdes(data, num.var = ncol(data)) #pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:length(description_groupes)){
       print(description_groupes$quanti[i])
@@ -125,14 +126,16 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
 
 
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
+    res=as.data.frame(c(data_triee,data2,res))
     #   assign("data_split", data2, envir = .GlobalEnv)
   }
     ### Détection par le nombre de clusters
   if (!is.null(k)){
     rect.hclust(hc,k=k,border=2)
     groupes=cutree(hc,k=k)
-    data$Groupe<-as.factor(groupes)
-    description_groupes <- catdes(data, num.var = ncol(data)) #pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
+    data$Groupe<-groupes
+    data_triee <- data[hc$order, ]
+    description_groupes <- catdes(data, num.var = ncol(data)) #calculs statistiques ; pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:k){
       print(description_groupes$quanti[i])
       View(description_groupes$quanti[i])}
@@ -141,8 +144,8 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     # test de Fisher et R²
     plot(description_groupes)
     View(data_triee)
-
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
+    res=as.data.frame(c(data,data2,res))
   }
   return(hc)
 }
