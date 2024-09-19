@@ -21,13 +21,13 @@
 #' \item{data}{le fichier data triée dans l'ordre du dendogramme. Si `k` ou `h` est renseigné, une colonne `Groupe` est automatiquement ajoutée avec le numéro du groupe auquel appartient chaque échantillon}
 #' \item{split}{une liste avec les éléments du datasets pour chaque groupe}
 #' \item{hc}{l'arbre hiérarchique est retourner sous forme d'un objet de classe hclust. (Voir fonction R `hclust` pour plus de détails)}
-#'
+#' \item{descriptif}{Si `k` ou `h` est renseigné. Retourne la liste contenant les tests statistiques réalisés sur les groupes.}
 #' @export
 #' @importFrom stats hclust rect.hclust cutree dist
-#' @importFrom utils View
+#' @importFrom utils View head
 #' @importFrom grDevices dev.new palette
 #' @importFrom nexus as_composition replace_zero transform_clr
-#' @importFrom graphics boxplot
+#' @importFrom graphics boxplot par
 #' @importFrom FactoMineR catdes
 #' @importFrom khroma color
 #'
@@ -58,7 +58,7 @@
 #'
 grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALSE){
 
-  #==========================traitement des donnés===========================
+  #==========================Traitement des donnés===========================
   data0=data
   data_selectionne<-selection_menu(data) #on enlève des éléments à analyser
   if (is.factor(data_selectionne[[ncol(data_selectionne)]])){stop("La derniere colonne doit etre de type numerical. Cocher la case 'groupe' dans le menu de selection des elements.")}
@@ -83,9 +83,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     data_norm=scale(data_t)
   }
 
-  #=============================clustering======================================
-
-
+  #=============================Clustering======================================
 
   matrice_dist <- dist(data_norm) #matrice des distances euclidiennes
   hc <- hclust(matrice_dist,method="average")
@@ -95,19 +93,20 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
   else if (methode=='logarithme'){sub='hclust(*,"average") - transformation log-ratio'}
 
 
- #========================visualisation graphique===============================
-
+ #========================Visualisation graphique===============================
   ## Plot initial---------------------------------------------------------------
+
   plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
 
   ## Mise en couleur des noms des individus en fonction de leur groupe de référence inital--
   if (color)
-  {plot(hc, labels = FALSE, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
+  { par(mar = c(5, 4, 4, 8), xpd = TRUE)
+    plot(hc, labels = FALSE, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
 
-  palette <- color("soil")(24)
+  palette <- color("bright")(7)
   labels <- rownames(data)
   colors <- palette[data0[, ncol(data0)]]
-
+  groupes <- unique(data0[, ncol(data0)])
   if (!(is.null(h)&is.null(k))){position_text=-0.8}
   else {position_text=-0.2} #permet d'avoir des résultats lisibles, tout en ne cachant pas les rectangles qui encadrent les clusters de la classification
 
@@ -115,8 +114,9 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
        y = rep(position_text, length(labels)),
        labels = labels[hc$order],
        col = colors[hc$order],
-       srt = 90, adj = 1, xpd = TRUE, cex = 0.8)}
-
+       srt = 90, adj = 1, xpd = TRUE, cex = 0.8)
+  legend("bottomright", inset = c(-0.2, 0), legend = groupes, col = palette[1:length(groupes)], pch = 15, title = "Groupes", box.lty = 0)
+  }
   ## Détection des nouveaux groupes, tests statistiques sur ces groupes---------
     ### Détection par la hauteur
   if (!is.null(h)){
@@ -125,14 +125,13 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     data$Groupe<-as.factor(groupes)
     description_groupes <- catdes(data, num.var = ncol(data)) #pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:length(description_groupes)){
-      print(description_groupes$quanti[i])
-      View(description_groupes$quanti[i])} # valeur-test et p-value par groupe
-    View(description_groupes[1]) # test de Fisher et R²
-    plot(description_groupes)
+      print(head(description_groupes$quanti[i]))
+     } # valeur-test et p-value par groupe
+    print(head(description_groupes[1])) # test de Fisher et R²
     data_triee <- data[hc$order, ]
     View(data_triee)
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
-    res=list(data=data_triee,split=data2,hc=hc)
+    res=list(data=data_triee,split=data2,hc=hc,descriptif=description_groupes)
     #   assign("data_split", data2, envir = .GlobalEnv)
   }
     ### Détection par le nombre de clusters
@@ -142,16 +141,16 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     data$Groupe<-as.factor(groupes)
     description_groupes <- catdes(data, num.var = ncol(data)) #calculs statistiques ; pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:k){
-      print(description_groupes$quanti[i])
-      View(description_groupes$quanti[i])}
+      print(head(description_groupes$quanti[i]))
+      }
     # valeur-test et p-value par groupe
-    View(description_groupes[1])
+   print(head(description_groupes[1]))
     # test de Fisher et R²
     plot(description_groupes,cex=2)
     data_triee <- data[hc$order, ]
     View(data_triee)
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
-    res=list(data=data_triee,split=data2,hc=hc)
+    res=list(data=data_triee,split=data2,hc=hc,descriptif=description_groupes)
   }
   else {
     data_triee <- data[hc$order, ]
