@@ -3,7 +3,7 @@
 #' @param data Un dataframe.
 #' @param x Un string. Le nom de l'élément que l'on veut en abssice.
 #' @param y Un string. Le nom de l'élément que l'on veut en ordonnée.
-#' @param groupe Un booléen. Si TRUE, les points du biplot sont coloriés en fonction de la dernière colonne de `data`.
+#' @param color Un booléen. Si TRUE, les points du biplot sont coloriés en fonction de la dernière colonne de `data`.
 #' @return Un biplot du diagramme binaire.
 #' @importFrom utils data
 #' @importFrom khroma color
@@ -14,7 +14,7 @@
 #' data('montpellier')
 #' binaire(montpellier,'CaO','Fe2O3')
 #'
-binaire<-function(data,x,y,groupe=FALSE){
+binaire<-function(data,x,y,color=FALSE){
   i_x<-which(names(data) == x)
   i_y<-which(names(data) == y)
 
@@ -24,7 +24,7 @@ binaire<-function(data,x,y,groupe=FALSE){
   plot(data[, i_x], data[, i_y], xlab = x, ylab = y, xlim = x_range, ylim = y_range)
 
   #----mise en couleur des groupes----------------------------------------------------
-  if (groupe){
+  if (color){
     data_split=split(data[,1:ncol(data)-1],data[,ncol(data)])
     groupes <- unique(data[, ncol(data)])
     palette<-color("soil")(ncol(data))

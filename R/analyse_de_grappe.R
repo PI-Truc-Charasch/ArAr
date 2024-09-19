@@ -9,7 +9,7 @@
 #' @param k,h Valeur scalaire. Coupe le dendogramme pour former `k` clusters ou à une hauteur `h`.
 #' @param color Un booleen. Si TRUE, le nom de chaque individu est colorié selon son groupe de référence. La dernière colonne de `data` doit alors être le numéro du groupe de référence.
 #' @details
-#' La fonction affiche un arbre hiérarchique. Une liste dataframe `data_triee` est automatiquement créée avec les échantillons rangées dans leur ordre d'apparition dans l'arbre.  Si le paramètre `k` ou `h` est renseigné, alors les groupes formés apparaissent sur le graphique et une colonne `Groupe` est ajoutée au fichier `data_triee`.
+#' La fonction affiche un arbre hiérarchique.
 #' Un ensemble de tests statistiques sont appliqués aux valeurs groupées pour vérifier la pertinence des groupes. On obtient une liste des éléments caractéristiques pour chaque groupe, avec leur valeur-test. Un test d'identitié des moyennes est également appliqué pour l'ensemble des variables.\cr
 #' \cr
 #' Le calcul préalable de traitement des données par la méthode `"logarithme"` s'appuie la transformation centrée log-ratio introduite par Aitchison en 1986. Il permet d'éviter le phénomène de contamination de la matrice des covariances en supprimant une contrainte.
@@ -17,7 +17,11 @@
 #' \cr
 #' L'arbre est construit avec une matrice des distances euclidiennes et par affinité moyenne, conformément à l'usage en archéométrie.
 #'
-#' @return Une liste de la classe hclust.
+#' @return Retourne une liste contenant:
+#' \item{data}{le fichier data triée dans l'ordre du dendogramme. Si `k` ou `h` est renseigné, une colonne `Groupe` est automatiquement ajoutée avec le numéro du groupe auquel appartient chaque échantillon}
+#' \item{split}{une liste avec les éléments du datasets pour chaque groupe}
+#' \item{hc}{l'arbre hiérarchique est retourner sous forme d'un objet de classe hclust. (Voir fonction R `hclust` pour plus de détails)}
+#'
 #' @export
 #' @importFrom stats hclust rect.hclust cutree dist
 #' @importFrom utils View
@@ -56,7 +60,9 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
 
   #==========================traitement des donnés===========================
   data0=data
-  data_selectionne<-selection_menu(data)
+  data_selectionne<-selection_menu(data) #on enlève des éléments à analyser
+  if (is.factor(data_selectionne[[ncol(data_selectionne)]])){stop("La derniere colonne doit etre de type numerical. Cocher la case 'groupe' dans le menu de selection des elements.")}
+
 
   if (normalize){
     data<-data_selectionne #creation du dataframe à normaliser
@@ -69,6 +75,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
   if (methode=='simple'){
     data_norm=scale(data)
   }
+
   else if (methode=='logarithme'){
     coda=as_composition(data)
     coda=replace_zero(coda,10e-7) #le log-ratio n'est pas défini en 0
@@ -77,6 +84,8 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
   }
 
   #=============================clustering======================================
+
+
 
   matrice_dist <- dist(data_norm) #matrice des distances euclidiennes
   hc <- hclust(matrice_dist,method="average")
@@ -90,8 +99,6 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
 
   ## Plot initial---------------------------------------------------------------
   plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
-  data_triee <- data[hc$order, ]
-  res=as.data.frame(c(data_triee,hc))
 
   ## Mise en couleur des noms des individus en fonction de leur groupe de référence inital--
   if (color)
@@ -115,26 +122,24 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
   if (!is.null(h)){
     rect.hclust(hc,h=h,border=2)
     groupes=cutree(hc,h=h)
-    data$Groupe<-groupes
-    data_triee <- data[hc$order, ]
+    data$Groupe<-as.factor(groupes)
     description_groupes <- catdes(data, num.var = ncol(data)) #pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:length(description_groupes)){
       print(description_groupes$quanti[i])
       View(description_groupes$quanti[i])} # valeur-test et p-value par groupe
     View(description_groupes[1]) # test de Fisher et R²
     plot(description_groupes)
-
-
+    data_triee <- data[hc$order, ]
+    View(data_triee)
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
-    res=as.data.frame(c(data_triee,data2,res))
+    res=list(data=data_triee,split=data2,hc=hc)
     #   assign("data_split", data2, envir = .GlobalEnv)
   }
     ### Détection par le nombre de clusters
-  if (!is.null(k)){
+  else if (!is.null(k)){
     rect.hclust(hc,k=k,border=2)
     groupes=cutree(hc,k=k)
-    data$Groupe<-groupes
-    data_triee <- data[hc$order, ]
+    data$Groupe<-as.factor(groupes)
     description_groupes <- catdes(data, num.var = ncol(data)) #calculs statistiques ; pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:k){
       print(description_groupes$quanti[i])
@@ -142,10 +147,15 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     # valeur-test et p-value par groupe
     View(description_groupes[1])
     # test de Fisher et R²
-    plot(description_groupes)
+    plot(description_groupes,cex=2)
+    data_triee <- data[hc$order, ]
     View(data_triee)
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
-    res=as.data.frame(c(data,data2,res))
+    res=list(data=data_triee,split=data2,hc=hc)
   }
-  return(hc)
+  else {
+    data_triee <- data[hc$order, ]
+    res=list(data=data_triee,hc=hc)
+  }
+  return(res)
 }

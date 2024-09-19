@@ -1,7 +1,7 @@
 #' @title fonction d'exclusion
-#' @description Permet d'exclure un échantillon marginal d'un dataset ou une variable peu intéressante.
+#' @description Renvoit un dataset sans un échantillon marginal du dataset ou une variable peu intéressante.
 #' @param data Le dataset de base.
-#' @param fichier Le nom de l'échantillon à enlever ou de l'élément chimique à ne pas prendre en compte dans l'analyse.
+#' @param fichier Un string. Le nom de l'échantillon à enlever ou de l'élément chimique à ne pas prendre en compte dans l'analyse.
 #'
 #' @return Le dataframe sans l'élément marginal ou l'élément chimique.
 #' @importFrom utils data

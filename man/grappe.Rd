@@ -25,14 +25,17 @@ grappe(
 \item{color}{Un booleen. Si TRUE, le nom de chaque individu est colorié selon son groupe de référence. La dernière colonne de \code{data} doit alors être le numéro du groupe de référence.}
 }
 \value{
-Une liste de la classe hclust.
+Retourne une liste contenant:
+\item{data}{le fichier data triée dans l'ordre du dendogramme. Si \code{k} ou \code{h} est renseigné, une colonne \code{Groupe} est automatiquement ajoutée avec le numéro du groupe auquel appartient chaque échantillon}
+\item{split}{une liste avec les éléments du datasets pour chaque groupe}
+\item{hc}{l'arbre hiérarchique est retourner sous forme d'un objet de classe hclust. (Voir fonction R \code{hclust} pour plus de détails)}
 }
 \description{
 L'analyse de grappe ou classification hiérarchique ascendante est une technique de classification automatique en analyse de données.
 Contrairement à une analyse factorielle, elle prend en compte toutes les dimensions d'un problème, sans perte d'informations. Mais son principal avantage réside dans l'interprétation facile du résultat.
 }
 \details{
-La fonction affiche un arbre hiérarchique. Une liste dataframe \code{data_triee} est automatiquement créée avec les échantillons rangées dans leur ordre d'apparition dans l'arbre.  Si le paramètre \code{k} ou \code{h} est renseigné, alors les groupes formés apparaissent sur le graphique et une colonne \code{Groupe} est ajoutée au fichier \code{data_triee}.
+La fonction affiche un arbre hiérarchique.
 Un ensemble de tests statistiques sont appliqués aux valeurs groupées pour vérifier la pertinence des groupes. On obtient une liste des éléments caractéristiques pour chaque groupe, avec leur valeur-test. Un test d'identitié des moyennes est également appliqué pour l'ensemble des variables.\cr
 \cr
 Le calcul préalable de traitement des données par la méthode \code{"logarithme"} s'appuie la transformation centrée log-ratio introduite par Aitchison en 1986. Il permet d'éviter le phénomène de contamination de la matrice des covariances en supprimant une contrainte.
