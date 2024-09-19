@@ -29,6 +29,7 @@ Retourne une liste contenant:
 \item{data}{le fichier data triée dans l'ordre du dendogramme. Si \code{k} ou \code{h} est renseigné, une colonne \code{Groupe} est automatiquement ajoutée avec le numéro du groupe auquel appartient chaque échantillon}
 \item{split}{une liste avec les éléments du datasets pour chaque groupe}
 \item{hc}{l'arbre hiérarchique est retourner sous forme d'un objet de classe hclust. (Voir fonction R \code{hclust} pour plus de détails)}
+\item{descriptif}{Si \code{k} ou \code{h} est renseigné. Retourne la liste contenant les tests statistiques réalisés sur les groupes.}
 }
 \description{
 L'analyse de grappe ou classification hiérarchique ascendante est une technique de classification automatique en analyse de données.

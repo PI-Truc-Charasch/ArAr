@@ -24,7 +24,7 @@ selection_menu <- function(df) {
   if ("Groupe" %in% colnames(df)){preselection<-c("Groupe",preselection)}
   # Interface utilisateur
   ui <- fluidPage(
-    titlePanel("Cochez les cases correspondant à ceux que vous ne souhaitez PAS garder"),
+    titlePanel("Cochez les cases correspondant a ceux que vous ne souhaitez PAS garder"),
     sidebarLayout(
       sidebarPanel(
         checkboxGroupInput("columns", "Colonnes a supprimer :",
