@@ -5,9 +5,9 @@
 #' @param y Un string. Le nom de l'élément que l'on veut en ordonnée.
 #' @param groupe Un booléen. Si TRUE, les points du biplot sont coloriés en fonction de la dernière colonne de `data`.
 #' @return Un biplot du diagramme binaire.
-#'
 #' @importFrom utils data
 #' @importFrom khroma color
+#' @importFrom graphics legend points
 #' @export
 #' @examples
 #' ## dataset de Waksman, 1999

@@ -123,6 +123,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     View(description_groupes[1]) # test de Fisher et R²
     plot(description_groupes)
 
+
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
     #   assign("data_split", data2, envir = .GlobalEnv)
   }
@@ -139,6 +140,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     View(description_groupes[1])
     # test de Fisher et R²
     plot(description_groupes)
+    View(data_triee)
 
     data2=split(data_triee[,1:ncol(data_triee)-1],data_triee[,ncol(data_triee)])
   }

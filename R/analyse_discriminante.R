@@ -32,6 +32,7 @@
 #' @importFrom stats pchisq
 #' @importFrom stats sd
 #' @importFrom utils data
+#' @importFrom methods new
 #'
 #' @references
 #' Picon, M. (1984). *PACT 10*. Academic Press. \cr
@@ -65,11 +66,8 @@ ana_dis<-function(data,pas,echantillon,normalize=TRUE,echantillonage=TRUE){
 
   distance_mahalanobis <- function(echantillon){
     matrice=cov(data2)
-    print("a")
     svd_decomp <- svd(matrice) #distance régularisée, cf (Lebart et al. 2000) $7.4.2
-    print("b")
     covariance_matrix_inv <- svd_decomp$u %*% diag(1 / svd_decomp$d) %*% t(svd_decomp$v)
-    print("c")
     # lambda=0.1
     # matrice_reg<-matrice+lambda*diag(ncol(data))
     #
@@ -79,9 +77,7 @@ ana_dis<-function(data,pas,echantillon,normalize=TRUE,echantillonage=TRUE){
     #diff <- echantillon - mean_existing
     #distance <- t(diff) %*% inv_matrice_reg %*% diff
     echantillon=as.vector(as.matrix(echantillon))
-    print("cc")
     distance <- mahalanobis(echantillon,mean_existing,covariance_matrix_inv,inverted = TRUE)
-    print("d")
     distance=sqrt(distance)/nombre_element
     return(distance)
   }
@@ -94,11 +90,8 @@ ana_dis<-function(data,pas,echantillon,normalize=TRUE,echantillonage=TRUE){
     titre_graphe=paste("Histogramme des distances",nom_distance)
 
     liste_dist=apply(data,1,distance)
-    print("passe")
     #liste_dist_complete=c(liste_dist,distance(echantillon))
-    print("passe_aussi")
     liste_dist_complete2=apply(data2,1,distance)
-    print("passe_toujours")
     #boxplot(liste_dist)
 
     borne_inferieure=floor(min(liste_dist_complete2)/pas)*pas #calculee en arrondissant la valeur minimale des donnees au pas inferieur le plus proche

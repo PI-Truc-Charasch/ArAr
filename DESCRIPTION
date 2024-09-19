@@ -12,7 +12,8 @@ RoxygenNote: 7.3.2
 Imports: shiny, 
          nexus,
          FactoMineR,
-         khroma
+         khroma,
+         methods
 URL: https://github.com/PI-Truc-Charasch/ArAr
 BugReports: https://github.com/PI-Truc-Charasch/ArAr/issues
 Suggests: 

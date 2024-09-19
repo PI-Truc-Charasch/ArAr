@@ -4,7 +4,7 @@
 \alias{binaire}
 \title{Diagramme binaire}
 \usage{
-binaire(data, x, y)
+binaire(data, x, y, groupe = FALSE)
 }
 \arguments{
 \item{data}{Un dataframe.}
@@ -12,6 +12,8 @@ binaire(data, x, y)
 \item{x}{Un string. Le nom de l'élément que l'on veut en abssice.}
 
 \item{y}{Un string. Le nom de l'élément que l'on veut en ordonnée.}
+
+\item{groupe}{Un booléen. Si TRUE, les points du biplot sont coloriés en fonction de la dernière colonne de \code{data}.}
 }
 \value{
 Un biplot du diagramme binaire.
