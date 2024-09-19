@@ -9,13 +9,13 @@ exclure(data, fichier)
 \arguments{
 \item{data}{Le dataset de base.}
 
-\item{fichier}{Le nom de l'échantillon à enlever ou de l'élément chimique à ne pas prendre en compte dans l'analyse.}
+\item{fichier}{Un string. Le nom de l'échantillon à enlever ou de l'élément chimique à ne pas prendre en compte dans l'analyse.}
 }
 \value{
 Le dataframe sans l'élément marginal ou l'élément chimique.
 }
 \description{
-Permet d'exclure un échantillon marginal d'un dataset ou une variable peu intéressante.
+Renvoit un dataset sans un échantillon marginal du dataset ou une variable peu intéressante.
 }
 \examples{
 data('rock')

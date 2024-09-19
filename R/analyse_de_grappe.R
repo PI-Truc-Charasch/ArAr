@@ -104,7 +104,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
   if (color)
   {plot(hc, labels = FALSE, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
 
-  palette <- color("soil")(ncol(data0))
+  palette <- color("soil")(24)
   labels <- rownames(data)
   colors <- palette[data0[, ncol(data0)]]
 
