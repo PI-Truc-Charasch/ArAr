@@ -59,11 +59,13 @@
 grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALSE){
 
   #==========================Traitement des donnés===========================
+  #sauvegarde du dataset originel
   data0=data
+  #selection des elements
   data_selectionne<-selection_menu(data) #on enlève des éléments à analyser
   if (is.factor(data_selectionne[[ncol(data_selectionne)]])){stop("La derniere colonne doit etre de type numerical. Cocher la case 'groupe' dans le menu de selection des elements.")}
 
-
+  #normalisation
   if (normalize){
     data<-data_selectionne #creation du dataframe à normaliser
     for (i in 1:nrow(data)){
@@ -72,20 +74,22 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
   }
   else {data<-data_selectionne}
 
+  #methodes
   if (methode=='simple'){
-    data_norm=scale(data)
+    data_norm=scale(data) #centree reduite
   }
 
   else if (methode=='logarithme'){
     coda=as_composition(data)
     coda=replace_zero(coda,10e-7) #le log-ratio n'est pas défini en 0
-    data_t=transform_clr(coda)
+    data_t=transform_clr(coda) #j'applique le log-ratio
     data_norm=scale(data_t)
   }
 
   #=============================Clustering======================================
 
   matrice_dist <- dist(data_norm) #matrice des distances euclidiennes
+  #calcul des clusters
   hc <- hclust(matrice_dist,method="average")
   #NB : method="average" si classification en affinite moyenne non ponderee
   #     method="median" si classification en affinite moyenne ponderee
@@ -98,7 +102,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
 
   plot(hc, labels = data$Nom, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
 
-  ## Mise en couleur des noms des individus en fonction de leur groupe de référence inital--
+  ## Mise en couleur des noms des individus en fonction de leur groupe de référence inital------
   if (color)
   { par(mar = c(5, 4, 4, 8), xpd = TRUE)
     plot(hc, labels = FALSE, main = "Dendrogramme",hang=-1,sub=sub, xlab = "Echantillons", ylab = "Distance")
@@ -121,8 +125,11 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     ### Détection par la hauteur
   if (!is.null(h)){
     rect.hclust(hc,h=h,border=2)
+    #decoupage de l'arbre selon la hauteur
     groupes=cutree(hc,h=h)
+    #ajout des groupes crees au fichier originel
     data$Groupe<-as.factor(groupes)
+    #tests statistiques sur les groupes
     description_groupes <- catdes(data, num.var = ncol(data)) #pour son fonctionnement mathématique voir paragraphe 3.7.2, Husson et al. 2010
     for (i in 1:length(description_groupes)){
       print(head(description_groupes$quanti[i]))
@@ -153,6 +160,7 @@ grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALS
     res=list(data=data_triee,split=data2,hc=hc,descriptif=description_groupes)
   }
   else {
+    #mettre les donnes dans l'ordre d'apparition dans la grappe
     data_triee <- data[hc$order, ]
     res=list(data=data_triee,hc=hc)
   }

@@ -20,7 +20,7 @@ binaire<-function(data,x,y,color=FALSE){
 
   x_range<-range(data[, i_x]+1, na.rm = TRUE)
   y_range<-range(data[, i_y], na.rm = TRUE)
-  par(mar = c(5, 4, 4, 8), xpd = TRUE)
+  par(mar = c(5, 4, 4, 8), xpd = TRUE) #-> on aggrandit la fenetre de plot pour pouvoir afficher la legende
   plot(data[, i_x], data[, i_y], xlab = x, ylab = y, xlim = x_range, ylim = y_range)
 
   #----mise en couleur des groupes----------------------------------------------------

@@ -36,7 +36,7 @@
 #'
 #' @references
 #' Picon, M. (1984). *PACT 10*. Academic Press. \cr
-#' M. J. Baxter(1994), *Exploratory multivariate analisys in archeology*, Editions Edinburgh University Press. \cr
+#' M. J. Baxter(1994), *Exploratory multivariate analysis in archeology*, Editions Edinburgh University Press. \cr
 #' Chenorkian, R. (1996), *Pratique archéologique statistique et graphique*, Editions Errance \cr
 #'
 #' @examples
