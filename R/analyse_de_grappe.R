@@ -53,7 +53,6 @@
 #'
 #' ## End(Not run)
 #'
-#' ## Exemple 2 Waksman, 1999
 #'
 #'
 grappe <- function(data,normalize=TRUE,methode='simple',h=NULL,k=NULL,color=FALSE){
