@@ -26,7 +26,7 @@ travail_sur_groupe<-function(data,pas,normalize=TRUE,echantillonage=TRUE){
   nombre_ligne=nrow(data)
   #data[,8:14]=data[,8:14]*10e-5 #conversion ppm en % pour les éléments mineurs
 
-
+  #calcul distance euclidienne
   distance_euclidean <- function(echantillon){
     mean_existing <- colMeans(data)
     distance <- sqrt(sum(((echantillon - mean_existing)/apply(data, 2, sd))^2))
@@ -34,16 +34,12 @@ travail_sur_groupe<-function(data,pas,normalize=TRUE,echantillonage=TRUE){
     return(distance)
   }
 
+  #calcul distance de Mahalannobis
   distance_mahalanobis <- function(echantillon){
     matrice=cov(data)
-
+    #distance régularisée au cas où si le déterminant est nul
     svd_decomp <- svd(matrice)
     covariance_matrix_inv <- svd_decomp$u %*% diag(1 / svd_decomp$d) %*% t(svd_decomp$v)
-
-    lambda=0.1
-    matrice_reg<-matrice+lambda*diag(ncol(data))
-
-    inv_matrice_reg<-solve(matrice_reg)
 
     mean_existing<-colMeans(data)
     #diff <- echantillon - mean_existing
@@ -54,7 +50,7 @@ travail_sur_groupe<-function(data,pas,normalize=TRUE,echantillonage=TRUE){
   }
 
 
-
+  #affichage histogramme
   afficher_hist <- function(distance){
     if (identical(distance,distance_euclidean)) {nom_distance='euclidiennes'}
     else {nom_distance='de Mahalanobis'}
