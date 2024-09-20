@@ -47,6 +47,6 @@ Cette approche est néanmoins entièremment géométrique et ne prend pas en com
 }
 \references{
 Picon, M. (1984). \emph{PACT 10}. Academic Press. \cr
-M. J. Baxter(1994), \emph{Exploratory multivariate analisys in archeology}, Editions Edinburgh University Press. \cr
+M. J. Baxter(1994), \emph{Exploratory multivariate analysis in archeology}, Editions Edinburgh University Press. \cr
 Chenorkian, R. (1996), \emph{Pratique archéologique statistique et graphique}, Editions Errance \cr
 }
